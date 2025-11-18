@@ -3,9 +3,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --container: 93.75rem;
 }
 
 @theme inline {
+  --color-brand-primary: #5272FF;
+  --color-background-dark: #0D224A;
+  --color-red-900: #EE0039;
+  --color-gray-900: #4B5563;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
