@@ -1,6 +1,6 @@
 "use client";
 
-import InputField from "@/components/ui/forms/InputField";
+import InputField from "@/components/forms/InputField";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 

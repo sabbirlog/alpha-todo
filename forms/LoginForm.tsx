@@ -1,7 +1,7 @@
 "use client";
 
-import CheckBox from "@/components/ui/forms/Checkbox";
-import InputField from "@/components/ui/forms/InputField";
+import CheckBox from "@/components/forms/Checkbox";
+import InputField from "@/components/forms/InputField";
 import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";

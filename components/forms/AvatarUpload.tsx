@@ -1,8 +1,10 @@
 "use client";
 
+import { CameraIcon, UploadIcon } from "lucide-react";
 import Image from "next/image";
 import React, { useRef, useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
+import Button from "../ui/Button";
 
 interface AvatarUploadProps {
   fallback?: string;
@@ -48,22 +50,24 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
           className="w-24 h-24 rounded-full object-cover bg-gray-300"
         />
 
-        <button
+        <Button
           type="button"
           onClick={openFilePicker}
-          className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-blue-600 text-white grid place-items-center shadow-md"
+          className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-brand-primary text-white grid place-items-center shadow-md"
         >
-          📷
-        </button>
+          <CameraIcon />
+        </Button>
       </div>
 
-      <button
+      <Button
         type="button"
         onClick={openFilePicker}
-        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2"
+        className="px-4 py-2 bg-brand-primary hover:bg-blue-700 text-white rounded-lg flex items-center gap-2"
       >
-        ⬆️ Upload New Photo
-      </button>
+        <span>
+          <UploadIcon />
+        </span> Upload New Photo
+      </Button>
 
       <input
         type="file"
@@ -80,7 +84,7 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
         }}
       />
 
-      {error && <p className="text-red-500 text-sm">{error}</p>}
+      {error && <p className="text-red-900 text-sm">{error}</p>}
     </div>
   );
 };

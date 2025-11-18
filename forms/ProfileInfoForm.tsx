@@ -1,6 +1,9 @@
 "use client";
 
-import InputField from "@/components/ui/forms/InputField";
+import AvatarUpload from "@/components/forms/AvatarUpload";
+import InputField from "@/components/forms/InputField";
+import Button from "@/components/ui/Button";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type ProfileInfoFormValues = {
@@ -10,6 +13,7 @@ type ProfileInfoFormValues = {
   address: string;
   contactNumber: string;
   birthday: string;
+  avatar?: File | null;
 };
 
 const ProfileInfoForm = () => {
@@ -17,16 +21,57 @@ const ProfileInfoForm = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
-  } = useForm<ProfileInfoFormValues>();
+    formState: { errors, isSubmitting },
+    setValue,
+  } = useForm<ProfileInfoFormValues>({
+    defaultValues: {
+      avatar: null,
+    },
+  });
 
-  const onSubmit: SubmitHandler<ProfileInfoFormValues> = (data) => {
-    console.log("Submitted:", data);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+
+  const handleAvatarChange = (file: File | null) => {
+    setAvatarFile(file);
+    setValue("avatar", file);
+  };
+
+  const onSubmit: SubmitHandler<ProfileInfoFormValues> = async (data) => {
+    try {
+      const formData = new FormData();
+      formData.append("firstName", data.firstName);
+      formData.append("lastName", data.lastName);
+      formData.append("email", data.email);
+      formData.append("address", data.address);
+      formData.append("contactNumber", data.contactNumber);
+      formData.append("birthday", data.birthday);
+
+      if (avatarFile) {
+        formData.append("avatar", avatarFile);
+      }
+
+      const response = await fetch("/api/profile/update", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error("Failed to update profile");
+
+      const result = await response.json();
+      console.log("Profile updated successfully:", result);
+
+      reset();
+      setAvatarFile(null);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div className="mx-auto mt-10 p-8 border rounded-2xl bg-white">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <AvatarUpload value={avatarFile} onChange={handleAvatarChange} />
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <InputField
             label="First Name"
@@ -75,20 +120,20 @@ const ProfileInfoForm = () => {
         />
 
         <div className="flex items-center justify-center gap-4 pt-4">
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-10 py-3 rounded-md hover:bg-blue-700 transition"
-          >
+          <Button type="submit" variant="primary" isLoading={isSubmitting}>
             Save Changes
-          </button>
+          </Button>
 
-          <button
+          <Button
             type="button"
-            onClick={() => reset()}
-            className="bg-gray-400 text-white px-10 py-3 rounded-md hover:bg-gray-500 transition"
+            variant="secondary"
+            onClick={() => {
+              reset();
+              setAvatarFile(null);
+            }}
           >
             Cancel
-          </button>
+          </Button>
         </div>
       </form>
     </div>
