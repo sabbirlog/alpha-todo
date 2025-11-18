@@ -4,7 +4,7 @@ import { Grid3X3, Pencil, Trash2 } from "lucide-react";
 import React from "react";
 import Button from "./Button";
 
-export type TodoPriority = "Extreme" | "Moderate" | "Low";
+export type TodoPriority = "extreme" | "moderate" | "low";
 
 export interface TodoCardProps {
   title: string;
@@ -24,19 +24,19 @@ const TodoCard: React.FC<TodoCardProps> = ({
   onDelete
 }) => {
   const styles: Record<TodoPriority, { border: string; bg: string; badge: string; wrapper: string }> = {
-    Extreme: {
+    extreme: {
       border: "border-red-100",
       bg: "bg-white",
       badge: "bg-red-100 text-red-600",
       wrapper: "hover:shadow-red-100"
     },
-    Moderate: {
+    moderate: {
       border: "border-green-100",
       bg: "bg-white",
       badge: "bg-green-100 text-green-600",
       wrapper: "hover:shadow-green-100"
     },
-    Low: {
+    low: {
       border: "border-yellow-100",
       bg: "bg-white",
       badge: "bg-yellow-100 text-yellow-600",
@@ -44,12 +44,12 @@ const TodoCard: React.FC<TodoCardProps> = ({
     }
   };
 
-  const currentStyle = styles[priority] || styles.Low;
+  const currentStyle = styles[priority] || styles.low;
 
   return (
     <div
       className={`
-        relative p-6 rounded-2xl border-2 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col justify-between gap-6 h-full
+        relative p-6 rounded-2xl border-2 transition-all duration-300 flex flex-col justify-between gap-6 h-full
         ${currentStyle.border} ${currentStyle.bg} ${currentStyle.wrapper}
       `}
     >

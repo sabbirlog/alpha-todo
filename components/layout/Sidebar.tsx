@@ -43,7 +43,6 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <>
-      {/* Mobile overlay */}
       <div
         className={`fixed inset-0 bg-slate-900/50 z-40 lg:hidden transition-opacity duration-300 ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -56,7 +55,6 @@ const Sidebar: React.FC<SidebarProps> = ({
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
-        {/* Profile Section */}
         <div className="p-8 flex flex-col items-center border-b border-slate-800">
           <div className="relative mb-4 group cursor-pointer">
             <div className="w-24 h-24 rounded-full p-1 border-2 border-slate-700 group-hover:border-blue-500 transition-colors">

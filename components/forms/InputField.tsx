@@ -12,6 +12,9 @@ interface InputFieldProps {
   register: UseFormRegisterReturn;
   error?: string;
   className?: string;
+  value?: string;           
+  defaultValue?: string;    
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -22,6 +25,9 @@ const InputField: React.FC<InputFieldProps> = ({
   register,
   error,
   className = "",
+  value,
+  defaultValue,
+  onChange,
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -36,15 +42,16 @@ const InputField: React.FC<InputFieldProps> = ({
         <input
           {...register}
           disabled={disabled}
-          type={
-            isPassword ? (showPassword ? "text" : "password") : type
-          }
+          type={isPassword ? (showPassword ? "text" : "password") : type}
           placeholder={placeholder}
+          value={value}                 
+          defaultValue={defaultValue}   
+          onChange={onChange}            
           className={`
             w-full px-4 py-3 pr-12 rounded-xl border outline-none
             text-gray-700 placeholder-gray-400 bg-white
             ${error ? "border-red-900 focus:border-red-900" : "border-gray-300 focus:border-black"}
-             transition
+            transition
             disabled:bg-gray-100 disabled:cursor-not-allowed
           `}
         />
