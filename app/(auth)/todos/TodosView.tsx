@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteTodo, getTodos, Todo } from "@/api/todos";
+import { deleteTodo, getTodos, Todo, updateTodo } from "@/api/todos";
 import FilterBar from "@/components/ui/FilterBar";
 import { DateFilter } from "@/components/ui/FilterDropdown";
 import AddTaskModal from "@/components/ui/modals/AddTaskModal";
@@ -35,19 +35,29 @@ const TodosView = () => {
   const handleCloseAddModal = () => setIsAddModalOpen(false);
 
   const handleEditTask = (taskId: number) => {
-    const task = todos.find((t) => t.id === taskId) || null;
+    const task = allTodos?.find((t: Todo) => t.id === taskId) || null;
     if (task) {
       setSelectedTask(task);
       setIsEditModalOpen(true);
     }
   };
 
+  const updateMutation = useMutation({
+    mutationFn: ({ id, formData }: { id: number; formData: FormData }) =>
+      updateTodo(id, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+      setIsEditModalOpen(false);
+    },
+  });
+
+
   const deleteMutation = useMutation({
-  mutationFn: deleteTodo,
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ["todos"] });
-  },
-});
+    mutationFn: deleteTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
 
   const handleCloseEditModal = () => {
     setIsEditModalOpen(false);
@@ -74,7 +84,7 @@ const TodosView = () => {
 
   if (isError)
     return (
-      <div className="py-20 text-center text-red-500">
+      <div className="py-20 text-center text-red-900">
         Failed to load todos.
       </div>
     );
@@ -117,8 +127,11 @@ const TodosView = () => {
           isOpen={isEditModalOpen}
           onClose={handleCloseEditModal}
           task={selectedTask}
-          onUpdate={() => { }}
-          onDelete={() => { }}
+          onUpdate={(formData) => {
+            if (selectedTask) {
+              updateMutation.mutate({ id: selectedTask.id, formData });
+            }
+          }}
         />
       )}
 

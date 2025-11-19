@@ -32,3 +32,12 @@ export const createTodo = async (formData: FormData): Promise<Todo[]> => {
   return res.data || [];
 };
 
+export const updateTodo = async (id: number, formData: FormData): Promise<Todo[]> => {
+  const res = await api.patch(`/api/todos/${id}/`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data || [];
+};
+
