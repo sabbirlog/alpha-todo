@@ -12,8 +12,15 @@ export interface Todo {
   updated_at: string;
 }
 
+export interface TodosResponse {
+  results: Todo[];
+  count?: number;
+  next?: string | null;
+  previous?: string | null;
+}
 
-export const getTodos = async (todo_date?: string): Promise<Todo[]> => {
+
+export const getTodos = async (todo_date?: string): Promise<TodosResponse> => {
   const res = await api.get("/api/todos/", {
     params: todo_date ? { todo_date } : {},
   });

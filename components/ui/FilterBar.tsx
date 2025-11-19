@@ -9,8 +9,8 @@ import FilterDropdown, { DateFilter } from "./FilterDropdown";
 interface FilterBarProps {
     searchQuery: string;
     setSearchQuery: (query: string) => void;
-    dateFilter: DateFilter | string;
-    setDateFilter: (val: string) => void;
+    dateFilter: DateFilter;               
+    setDateFilter: (val: DateFilter) => void;
     onAddTask: () => void;
     isAdding?: boolean;
 }

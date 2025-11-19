@@ -12,22 +12,29 @@ import { Reorder } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+interface TodosResponse {
+  results: Todo[];
+  count?: number;
+  next?: string | null;
+  previous?: string | null;
+}
+
 const TodosView = () => {
   const queryClient = useQueryClient();
 
   const [dateFilter, setDateFilter] = useState<DateFilter>("none");
   const [todosList, setTodosList] = useState<Todo[]>([]);
 
-  const { data: todos = [], isLoading, isError } = useQuery<Todo[]>({
+  const { data: todosData, isLoading, isError } = useQuery<TodosResponse>({
     queryKey: ["todos", dateFilter],
     queryFn: () => getTodos(dateFilter === "none" ? undefined : dateFilter),
     refetchOnWindowFocus: false,
   });
 
-  const allTodos = todos?.results;
+  const allTodos = todosData?.results || [];
 
   useEffect(() => {
-    if (allTodos) setTodosList(allTodos);
+    setTodosList(allTodos);
   }, [allTodos]);
 
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -42,7 +49,7 @@ const TodosView = () => {
   const handleCloseAddModal = () => setIsAddModalOpen(false);
 
   const handleEditTask = (taskId: number) => {
-    const task = allTodos?.find((t: Todo) => t.id === taskId) || null;
+    const task = allTodos.find((t) => t.id === taskId) || null;
     if (task) {
       setSelectedTask(task);
       setIsEditModalOpen(true);
@@ -53,16 +60,15 @@ const TodosView = () => {
     mutationFn: ({ id, formData }: { id: number; formData: FormData }) =>
       updateTodo(id, formData),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
+      queryClient.invalidateQueries({ queryKey: ["todos", dateFilter] });
       setIsEditModalOpen(false);
     },
   });
 
-
   const deleteMutation = useMutation({
     mutationFn: deleteTodo,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
+      queryClient.invalidateQueries({ queryKey: ["todos", dateFilter] });
     },
   });
 
@@ -106,13 +112,14 @@ const TodosView = () => {
         onAddTask={handleAddTask}
       />
 
-      {todosList?.length > 0 ? (
+      {todosList.length > 0 ? (
         <Reorder.Group
           axis="x"
           values={todosList}
           onReorder={setTodosList}
-          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {todosList?.map((todo: Todo) => (
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+        >
+          {todosList.map((todo: Todo) => (
             <Reorder.Item key={todo.id} value={todo}>
               <TodoCard
                 todo={todo}
@@ -133,9 +140,7 @@ const TodosView = () => {
               className="object-cover"
             />
           </div>
-          <p>
-            No todos yet
-          </p>
+          <p>No todos yet</p>
         </div>
       )}
 

@@ -8,8 +8,8 @@ import Button from "./Button";
 export type DateFilter = "none" | "today" | "5d" | "10d" | "30d";
 
 interface FilterDropdownProps {
-  dateFilter: string;
-  setDateFilter: (val: string) => void;
+  dateFilter: DateFilter;
+  setDateFilter: (val: DateFilter) => void;
 }
 
 const FilterDropdown: React.FC<FilterDropdownProps> = ({ dateFilter, setDateFilter }) => {
@@ -26,7 +26,8 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ dateFilter, setDateFilt
     { label: "Expires in 30 days", value: "30d" },
   ];
 
-  const calculateDate = (value: DateFilter) => {
+  // Only format the date for API, do not store formatted date in state
+  const calculateDate = (value: DateFilter): string | undefined => {
     const today = new Date();
     let targetDate: Date | null = null;
 
@@ -47,7 +48,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ dateFilter, setDateFilt
         targetDate = null;
     }
 
-    if (!targetDate) return "";
+    if (!targetDate) return undefined;
 
     const yyyy = targetDate.getFullYear();
     const mm = String(targetDate.getMonth() + 1).padStart(2, "0");
@@ -58,8 +59,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ dateFilter, setDateFilt
 
   const handleFilterChange = useCallback(
     (value: DateFilter) => {
-      const formattedDate = calculateDate(value);
-      setDateFilter(formattedDate);
+      setDateFilter(value); // keep enum type
       setIsOpen(false);
     },
     [setDateFilter]
@@ -97,7 +97,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ dateFilter, setDateFilt
                 key={value}
                 type="button"
                 className={`inline-flex items-center justify-start w-full px-3 py-2 rounded-lg text-sm transition-colors ${
-                  calculateDate(value) === dateFilter
+                  dateFilter === value
                     ? "bg-blue-50 text-blue-700 font-medium"
                     : "hover:bg-slate-50 text-slate-700"
                 }`}
