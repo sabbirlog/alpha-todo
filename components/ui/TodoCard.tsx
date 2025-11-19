@@ -1,5 +1,6 @@
 "use client";
 
+import { Todo } from "@/api/todos";
 import { Grid3X3, Pencil, Trash2 } from "lucide-react";
 import React from "react";
 import Button from "./Button";
@@ -7,22 +8,18 @@ import Button from "./Button";
 export type TodoPriority = "extreme" | "moderate" | "low";
 
 export interface TodoCardProps {
-  title: string;
-  description: string;
-  priority: TodoPriority;
-  dueDate: string;
+  todo: Todo;
   onEdit?: () => void;
   onDelete?: () => void;
 }
 
 const TodoCard: React.FC<TodoCardProps> = ({
-  title,
-  description,
-  priority,
-  dueDate,
+  todo,
   onEdit,
   onDelete
 }) => {
+  const { id, priority, title, description, todo_date } = todo;
+
   const styles: Record<TodoPriority, { border: string; bg: string; badge: string; wrapper: string }> = {
     extreme: {
       border: "border-red-100",
@@ -74,7 +71,7 @@ const TodoCard: React.FC<TodoCardProps> = ({
       <div className="flex items-center justify-between pt-2 mt-auto">
         <div className="text-sm font-medium text-slate-500">
           <span className="block text-xs text-slate-400 mb-0.5">Due Date</span>
-          {dueDate}
+          {todo_date}
         </div>
 
         <div className="flex gap-2">
