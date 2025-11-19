@@ -1,4 +1,4 @@
-import ProfileInfoForm from "@/forms/ProfileInfoForm"
+import ProfileInfoForm from "@/forms/ProfileInfoForm";
 
 const AccountInfoWrapper = () => {
     return (
@@ -12,4 +12,4 @@ const AccountInfoWrapper = () => {
     )
 }
 
-export default AccountInfoWrapper
+export default AccountInfoWrapper;

@@ -3,8 +3,9 @@ import SignUpForm from "@/forms/SignUpForm";
 import generateDynamicMetadata from "@/utils/metaDataUtils";
 import { Metadata } from "next";
 
-export const generateMetadata = async (): Promise<Metadata> =>
-  await generateDynamicMetadata({ title: "Sign Up" });
+export async function generateMetadata(): Promise<Metadata> {
+  return generateDynamicMetadata({ title: "Sign Up" });
+}
 
 const SignUp = () => {
   return (
@@ -21,4 +22,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default SignUp;

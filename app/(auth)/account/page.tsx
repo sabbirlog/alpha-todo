@@ -2,8 +2,9 @@ import generateDynamicMetadata from "@/utils/metaDataUtils";
 import { Metadata } from "next";
 import AccountInfoWrapper from "./AccountInfoWrapper";
 
-export const generateMetadata = async (): Promise<Metadata> =>
-    await generateDynamicMetadata({ title: "Account Information" });
+export async function generateMetadata(): Promise<Metadata> {
+  return generateDynamicMetadata({ title: "Account Information" });
+}
 
 const AccountInformation = () => {
   return (
@@ -11,4 +12,4 @@ const AccountInformation = () => {
   )
 }
 
-export default AccountInformation
+export default AccountInformation;

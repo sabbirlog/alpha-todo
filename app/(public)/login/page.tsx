@@ -3,8 +3,9 @@ import LoginForm from "@/forms/LoginForm";
 import generateDynamicMetadata from "@/utils/metaDataUtils";
 import { Metadata } from "next";
 
-export const generateMetadata = async (): Promise<Metadata> =>
-    await generateDynamicMetadata({ title: "Login" });
+export async function generateMetadata(): Promise<Metadata> {
+  return generateDynamicMetadata({ title: "Login" });
+}
 
 const Login = () => {
     return (

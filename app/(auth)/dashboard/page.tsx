@@ -1,8 +1,9 @@
 import generateDynamicMetadata from "@/utils/metaDataUtils";
 import { Metadata } from "next";
 
-export const generateMetadata = async (): Promise<Metadata> =>
-    await generateDynamicMetadata({ title: "Dashboard" });
+export async function generateMetadata(): Promise<Metadata> {
+  return generateDynamicMetadata({ title: "Dashboard" });
+}
 
 const Dashboard = () => {
     return (
@@ -10,4 +11,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard
+export default Dashboard;

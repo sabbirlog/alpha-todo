@@ -2,8 +2,9 @@ import generateDynamicMetadata from '@/utils/metaDataUtils';
 import { Metadata } from 'next';
 import TodosView from './TodosView';
 
-export const generateMetadata = async (): Promise<Metadata> =>
-    await generateDynamicMetadata({ title: "Todos" });
+export async function generateMetadata(): Promise<Metadata> {
+    return generateDynamicMetadata({ title: "Todos" });
+}
 
 const Todos = () => {
     return (
@@ -11,4 +12,4 @@ const Todos = () => {
     )
 }
 
-export default Todos
+export default Todos;
