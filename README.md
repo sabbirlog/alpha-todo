@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Todo Web Application
+
+A **Todo Web Application** built with **Next.js** and **TypeScript**, following the provided Figma design. This application allows users to manage their todos efficiently with a clean and modern interface.
+
+## Project Overview
+
+This project is a fully functional Todo Web Application where users can:
+
+- Sign up and log in
+- Create, update, and delete todos
+- Reorder todos using drag-and-drop
+- Manage their profile
+
+The application is built using **Next.js**, **TypeScript**, and integrates modern UI components and state management.
+
+## Pages to Develop
+
+The application includes the following pages:
+
+### 1. Signup Page
+- Allows new users to create an account.
+- Collects information such as first name, last name, email, and password.
+- Form validation included.
+
+### 2. Login Page
+- Allows existing users to log in.
+- Includes authentication and error handling.
+
+### 3. Todo Management Page
+The main dashboard for managing todos. Users can:
+
+- **Create Todos**: Add new tasks with relevant details.
+- **Update Todos**: Edit existing tasks.
+- **Delete Todos**: Remove tasks permanently.
+- **Reorder Todos**: Drag-and-drop functionality to reorder tasks easily.
+
+### 4. Profile Page
+- View and update user profile information.
+- Upload avatar/profile image.
+- Update personal information like name, email, contact number, address, and birthday.
+
+## Technologies Used
+
+- **Next.js** – React framework for server-side rendering and static site generation.
+- **TypeScript** – Strongly typed JavaScript.
+- **React Query** – Data fetching and state management.
+- **Framer Motion** – Drag-and-drop functionality for reordering todos.
+- **Tailwind CSS** – Styling and UI components.
+
+## Features
+
+- Fully responsive design based on Figma layouts.
+- Form validation for signup and profile forms.
+- Real-time updates using React Query.
+- Drag-and-drop todo reordering using Framer Motion.
+- Profile management with avatar upload.
+- Clean and maintainable TypeScript codebase.
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+git clone <repository-url>
