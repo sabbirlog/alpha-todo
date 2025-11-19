@@ -4,16 +4,17 @@ import { PlusIcon } from "lucide-react";
 import React from "react";
 import SearchInput from "../forms/SearchInput";
 import Button from "./Button";
-import FilterDropdown, { DateFilter } from "./FilterDropdown";
+import FilterDropdown from "./FilterDropdown";
 
 interface FilterBarProps {
     searchQuery: string;
     setSearchQuery: (query: string) => void;
-    dateFilter: DateFilter;
-    setDateFilter: (val: DateFilter) => void;
+    dateFilter: string;
+    setDateFilter: (val: string) => void;
     onAddTask: () => void;
     isAdding?: boolean;
 }
+
 
 const FilterBar: React.FC<FilterBarProps> = ({
     searchQuery,

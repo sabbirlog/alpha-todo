@@ -13,17 +13,18 @@ import { useState } from "react";
 
 const TodosView = () => {
   const queryClient = useQueryClient();
+  
+  const [dateFilter, setDateFilter] = useState<DateFilter>("none");
 
-  const { data: todos = [], isLoading, isError } = useQuery<Todo[]>({
-    queryKey: ["todos"],
-    queryFn: getTodos,
-    refetchOnWindowFocus: false,
-  });
+const { data: todos = [], isLoading, isError } = useQuery<Todo[]>({
+  queryKey: ["todos", dateFilter],
+  queryFn: () => getTodos(dateFilter === "none" ? undefined : dateFilter),
+  refetchOnWindowFocus: false,
+});
 
   const allTodos = todos?.results;
 
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [dateFilter, setDateFilter] = useState<DateFilter>("none");
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<Todo | null>(null);

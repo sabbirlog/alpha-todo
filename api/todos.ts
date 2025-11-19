@@ -13,10 +13,13 @@ export interface Todo {
 }
 
 
-export const getTodos = async (): Promise<Todo[]> => {
-  const res = await api.get(`/api/todos/`);
+export const getTodos = async (todo_date?: string): Promise<Todo[]> => {
+  const res = await api.get("/api/todos/", {
+    params: todo_date ? { todo_date } : {},
+  });
   return res.data || [];
 };
+
 
 export const deleteTodo = async (id: number): Promise<Todo[]> => {
   const res = await api.delete(`/api/todos/${id}/`);

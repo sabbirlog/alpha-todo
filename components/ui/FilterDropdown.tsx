@@ -8,8 +8,8 @@ import Button from "./Button";
 export type DateFilter = "none" | "today" | "5d" | "10d" | "30d";
 
 interface FilterDropdownProps {
-  dateFilter: DateFilter;
-  setDateFilter: (val: DateFilter) => void;
+  dateFilter: DateFilter | string;
+  setDateFilter: (val: string) => void;
 }
 
 const FilterDropdown: React.FC<FilterDropdownProps> = ({ dateFilter, setDateFilter }) => {
@@ -26,9 +26,41 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ dateFilter, setDateFilt
     { label: "Expires in 30 days", value: "30d" },
   ];
 
+  const calculateDate = (value: DateFilter) => {
+    const today = new Date();
+    let targetDate: Date | null = null;
+
+    switch (value) {
+      case "today":
+        targetDate = today;
+        break;
+      case "5d":
+        targetDate = new Date(today.setDate(today.getDate() + 5));
+        break;
+      case "10d":
+        targetDate = new Date(today.setDate(today.getDate() + 10));
+        break;
+      case "30d":
+        targetDate = new Date(today.setDate(today.getDate() + 30));
+        break;
+      default:
+        targetDate = null;
+    }
+
+    if (!targetDate) return ""; // no filter
+
+    // format as YYYY-MM-DD
+    const yyyy = targetDate.getFullYear();
+    const mm = String(targetDate.getMonth() + 1).padStart(2, "0"); // months are 0-based
+    const dd = String(targetDate.getDate()).padStart(2, "0");
+
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
   const handleFilterChange = useCallback(
     (value: DateFilter) => {
-      setDateFilter(value);
+      const formattedDate = calculateDate(value);
+      setDateFilter(formattedDate); // pass formatted date string to parent
       setIsOpen(false);
     },
     [setDateFilter]
@@ -66,7 +98,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ dateFilter, setDateFilt
                 key={value}
                 type="button"
                 className={`inline-flex items-center justify-start w-full px-3 py-2 rounded-lg text-sm transition-colors ${
-                  dateFilter === value
+                  calculateDate(value) === dateFilter
                     ? "bg-blue-50 text-blue-700 font-medium"
                     : "hover:bg-slate-50 text-slate-700"
                 }`}
