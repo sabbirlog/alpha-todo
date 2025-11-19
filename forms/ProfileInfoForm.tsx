@@ -1,8 +1,10 @@
 "use client";
 
+import { getProfileData, UserProfile } from "@/api/account";
 import AvatarUpload from "@/components/forms/AvatarUpload";
 import InputField from "@/components/forms/InputField";
 import Button from "@/components/ui/Button";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -17,6 +19,11 @@ type ProfileInfoFormValues = {
 };
 
 const ProfileInfoForm = () => {
+  const { data: ProfileData, isLoading, isError } = useQuery<UserProfile>({
+    queryKey: ["me"],
+    queryFn: getProfileData,
+    refetchOnWindowFocus: false,
+  });
   const {
     register,
     handleSubmit,
@@ -75,6 +82,7 @@ const ProfileInfoForm = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <InputField
             label="First Name"
+            defaultValue={ProfileData?.first_name}
             placeholder="Enter first name"
             register={register("firstName", { required: "First name is required" })}
             error={errors.firstName?.message}
@@ -82,6 +90,7 @@ const ProfileInfoForm = () => {
 
           <InputField
             label="Last Name"
+            defaultValue={ProfileData?.last_name}
             placeholder="Enter last name"
             register={register("lastName", { required: "Last name is required" })}
             error={errors.lastName?.message}
@@ -91,6 +100,7 @@ const ProfileInfoForm = () => {
         <InputField
           label="Email"
           type="email"
+          defaultValue={ProfileData?.email}
           placeholder="Enter your email"
           register={register("email", { required: "Email is required" })}
           error={errors.email?.message}
@@ -100,6 +110,7 @@ const ProfileInfoForm = () => {
           <InputField
             label="Address"
             placeholder="Enter address"
+            defaultValue={ProfileData?.address}
             register={register("address", { required: "Address is required" })}
             error={errors.address?.message}
           />
@@ -107,6 +118,7 @@ const ProfileInfoForm = () => {
           <InputField
             label="Contact Number"
             placeholder="Enter contact number"
+            defaultValue={ProfileData?.contact_number}
             register={register("contactNumber", { required: "Contact number is required" })}
             error={errors.contactNumber?.message}
           />
@@ -115,6 +127,7 @@ const ProfileInfoForm = () => {
         <InputField
           label="Birthday"
           type="date"
+          defaultValue={ProfileData?.birthday}
           register={register("birthday", { required: "Birthday is required" })}
           error={errors.birthday?.message}
         />
