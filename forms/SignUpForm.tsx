@@ -1,8 +1,12 @@
 "use client";
 
+import { User, userRegister } from "@/api/auth";
 import InputField from "@/components/forms/InputField";
+import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 type SignUpFormValues = {
     firstName: string;
@@ -20,10 +24,31 @@ const SignUpForm = () => {
         formState: { errors },
     } = useForm<SignUpFormValues>();
 
+    const router = useRouter();
+
+
     const passwordValue = watch("password");
 
-    const onSubmit = (data: SignUpFormValues) => {
-        console.log("Form Submitted:", data);
+    const signUpMutation = useMutation<User, Error, { formData: FormData; }>({
+        mutationFn: ({ formData }) => userRegister(formData),
+        onSuccess: (data) => {
+            toast.success("Account Create successfully!");
+
+            router.push("/login");
+        },
+        onError: (err) => {
+            toast.error(err.message || "Invalid credentials");
+        },
+    });
+
+    const onSubmit = (form: SignUpFormValues) => {
+        const formData = new FormData();
+        formData.append("first_name", form?.firstName);
+        formData.append("last_name", form?.lastName);
+        formData.append("email", form.email);
+        formData.append("password", form?.confirmPassword);
+
+        signUpMutation.mutate({ formData });
     };
 
     return (

@@ -90,8 +90,11 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ isOpen, onClose }) => {
                         transition={{ duration: 0.25 }}
                     >
                         <div className="flex justify-between items-center mb-8">
-                            <h2 className="text-2xl font-bold text-gray-800">Add New Task</h2>
-                            <Button variant="secondary" onClick={onClose}>
+                            <div className="flex flex-col gap-1">
+                                <h2 className=" text-background-dark font-semibold text-2xl">Add New Task</h2>
+                                <div className="h-0.5 w-30 bg-brand-primary"></div>
+                            </div>
+                            <Button variant="secondary" onClick={onClose} className="bg-transparent underline underline-offset-4 border-0 shadow-none! decoration-1 decoration-background-dark">
                                 Go Back
                             </Button>
                         </div>
@@ -122,6 +125,12 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ isOpen, onClose }) => {
                                         };
                                         return (
                                             <label key={level} className="inline-flex items-center">
+                                                <span className="mr-2 text-sm text-gray-700 flex items-center">
+                                                    <span
+                                                        className={`inline-block w-2.5 h-2.5 rounded-full ${colorMap[level]} mr-1`}
+                                                    ></span>
+                                                    {level.charAt(0).toUpperCase() + level.slice(1)}
+                                                </span>
                                                 <input
                                                     type="radio"
                                                     value={level}
@@ -129,12 +138,6 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ isOpen, onClose }) => {
                                                     className="form-radio border-gray-300 focus:ring-2"
                                                     defaultChecked={level === "extreme"}
                                                 />
-                                                <span className="ml-2 text-sm text-gray-700 flex items-center">
-                                                    <span
-                                                        className={`inline-block w-2.5 h-2.5 rounded-full ${colorMap[level]} mr-1`}
-                                                    ></span>
-                                                    {level.charAt(0).toUpperCase() + level.slice(1)}
-                                                </span>
                                             </label>
                                         );
                                     })}

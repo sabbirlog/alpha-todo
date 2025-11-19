@@ -54,16 +54,18 @@ const TodoCard: React.FC<TodoCardProps> = ({
         <div className="space-y-2">
           <div className="flex items-center gap-3 flex-wrap">
             <h3 className="text-lg font-bold text-slate-800 leading-tight">{title}</h3>
-            <span
-              className={`px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider ${currentStyle.badge}`}
-            >
-              {priority}
-            </span>
           </div>
         </div>
-        <button className="text-slate-300 hover:text-slate-500 cursor-grab active:cursor-grabbing p-1">
-          <Grid3X3 size={20} />
-        </button>
+        <div className="flex items-center gap-3 flex-wrap">
+          <span
+            className={`px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider ${currentStyle.badge}`}
+          >
+            {priority}
+          </span>
+          <button className="text-slate-300 hover:text-slate-500 cursor-grab active:cursor-grabbing p-1">
+            <Grid3X3 size={20} />
+          </button>
+        </div>
       </div>
 
       <p className="text-slate-500 text-sm leading-relaxed">{description}</p>

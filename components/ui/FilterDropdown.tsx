@@ -1,14 +1,14 @@
 "use client";
 
 import useOutsideClick from "@/hooks/useOutsideClick";
-import { Calendar } from "lucide-react";
+import { SortAscIcon } from "lucide-react";
 import React, { useCallback, useRef, useState } from "react";
 import Button from "./Button";
 
 export type DateFilter = "none" | "today" | "5d" | "10d" | "30d";
 
 interface FilterDropdownProps {
-  dateFilter: DateFilter | string;
+  dateFilter: string;
   setDateFilter: (val: string) => void;
 }
 
@@ -47,11 +47,10 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ dateFilter, setDateFilt
         targetDate = null;
     }
 
-    if (!targetDate) return ""; // no filter
+    if (!targetDate) return "";
 
-    // format as YYYY-MM-DD
     const yyyy = targetDate.getFullYear();
-    const mm = String(targetDate.getMonth() + 1).padStart(2, "0"); // months are 0-based
+    const mm = String(targetDate.getMonth() + 1).padStart(2, "0");
     const dd = String(targetDate.getDate()).padStart(2, "0");
 
     return `${yyyy}-${mm}-${dd}`;
@@ -60,7 +59,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ dateFilter, setDateFilt
   const handleFilterChange = useCallback(
     (value: DateFilter) => {
       const formattedDate = calculateDate(value);
-      setDateFilter(formattedDate); // pass formatted date string to parent
+      setDateFilter(formattedDate);
       setIsOpen(false);
     },
     [setDateFilter]
@@ -77,8 +76,8 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ dateFilter, setDateFilt
         aria-haspopup="true"
       >
         <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4 text-slate-500" />
-          <span className="text-slate-700 font-medium">Filter</span>
+          <span className="text-slate-700 font-medium">Sort By</span>
+          <SortAscIcon className="w-4 h-4 text-slate-500" />
         </div>
       </Button>
 
@@ -89,8 +88,8 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ dateFilter, setDateFilt
           role="menu"
           aria-orientation="vertical"
         >
-          <h3 className="text-sm font-bold text-slate-900 mb-2 flex items-center gap-1">
-            <Calendar className="w-4 h-4 text-blue-500" /> Date Filter
+          <h3 className="text-sm font-bold text-slate-900 mb-2 flex items-center gap-1 pb-0.5 border-b border-gray-900">
+            Date Filter
           </h3>
           <div className="flex flex-col space-y-2">
             {dateFilterOptions.map(({ label, value }) => (

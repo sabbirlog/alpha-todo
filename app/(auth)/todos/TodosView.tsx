@@ -8,21 +8,27 @@ import ConfirmationModal from "@/components/ui/modals/ConfirmationModal";
 import EditTaskModal from "@/components/ui/modals/EditTaskModal";
 import TodoCard from "@/components/ui/TodoCard";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Inbox } from "lucide-react";
-import { useState } from "react";
+import { Reorder } from "framer-motion";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const TodosView = () => {
   const queryClient = useQueryClient();
-  
-  const [dateFilter, setDateFilter] = useState<DateFilter>("none");
 
-const { data: todos = [], isLoading, isError } = useQuery<Todo[]>({
-  queryKey: ["todos", dateFilter],
-  queryFn: () => getTodos(dateFilter === "none" ? undefined : dateFilter),
-  refetchOnWindowFocus: false,
-});
+  const [dateFilter, setDateFilter] = useState<DateFilter>("none");
+  const [todosList, setTodosList] = useState<Todo[]>([]);
+
+  const { data: todos = [], isLoading, isError } = useQuery<Todo[]>({
+    queryKey: ["todos", dateFilter],
+    queryFn: () => getTodos(dateFilter === "none" ? undefined : dateFilter),
+    refetchOnWindowFocus: false,
+  });
 
   const allTodos = todos?.results;
+
+  useEffect(() => {
+    if (allTodos) setTodosList(allTodos);
+  }, [allTodos]);
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
@@ -100,23 +106,35 @@ const { data: todos = [], isLoading, isError } = useQuery<Todo[]>({
         onAddTask={handleAddTask}
       />
 
-      {allTodos?.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {allTodos?.map((todo: Todo) => (
-            <TodoCard
-              key={todo.id}
-              todo={todo}
-              onEdit={() => handleEditTask(todo.id)}
-              onDelete={() => handleDeleteClick(todo.id)}
-            />
+      {todosList?.length > 0 ? (
+        <Reorder.Group
+          axis="x"
+          values={todosList}
+          onReorder={setTodosList}
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {todosList?.map((todo: Todo) => (
+            <Reorder.Item key={todo.id} value={todo}>
+              <TodoCard
+                todo={todo}
+                onEdit={() => handleEditTask(todo.id)}
+                onDelete={() => handleDeleteClick(todo.id)}
+              />
+            </Reorder.Item>
           ))}
-        </div>
+        </Reorder.Group>
       ) : (
         <div className="flex flex-col items-center justify-center py-20 text-center text-slate-500 space-y-4">
-          <Inbox className="w-12 h-12 text-slate-300" />
-          <h2 className="text-xl font-semibold text-slate-700">No Todos Found</h2>
-          <p className="text-slate-400 max-w-sm">
-            We couldn&apos;t find any tasks.
+          <div className="relative group overflow-hidden">
+            <Image
+              src="/todo-not-found.svg"
+              alt="not-found"
+              width={240}
+              height={216}
+              className="object-cover"
+            />
+          </div>
+          <p>
+            No todos yet
           </p>
         </div>
       )}

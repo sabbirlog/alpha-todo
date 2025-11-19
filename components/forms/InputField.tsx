@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 
@@ -48,7 +48,7 @@ const InputField: React.FC<InputFieldProps> = ({
           defaultValue={defaultValue}   
           onChange={onChange}            
           className={`
-            w-full px-4 py-3 pr-12 rounded-xl border outline-none
+            w-full px-4 py-3 rounded-xl border outline-none
             text-gray-700 placeholder-gray-400 bg-white
             ${error ? "border-red-900 focus:border-red-900" : "border-gray-300 focus:border-black"}
             transition
@@ -66,11 +66,11 @@ const InputField: React.FC<InputFieldProps> = ({
           </button>
         )}
 
-        {isDate && (
+        {/* {isDate && (
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
             <Calendar size={18} />
           </span>
-        )}
+        )} */}
       </div>
 
       {error && <p className="text-sm text-red-900">{error}</p>}

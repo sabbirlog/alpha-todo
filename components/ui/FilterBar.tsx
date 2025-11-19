@@ -4,12 +4,12 @@ import { PlusIcon } from "lucide-react";
 import React from "react";
 import SearchInput from "../forms/SearchInput";
 import Button from "./Button";
-import FilterDropdown from "./FilterDropdown";
+import FilterDropdown, { DateFilter } from "./FilterDropdown";
 
 interface FilterBarProps {
     searchQuery: string;
     setSearchQuery: (query: string) => void;
-    dateFilter: string;
+    dateFilter: DateFilter | string;
     setDateFilter: (val: string) => void;
     onAddTask: () => void;
     isAdding?: boolean;
@@ -29,7 +29,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-2">
                 <div className="flex flex-col gap-1">
                     <h2 className=" text-background-dark font-semibold text-2xl">Todos</h2>
-                    <div className="h-0.5 w-40 bg-brand-primary"></div>
+                    <div className="h-0.5 w-12 bg-brand-primary"></div>
                 </div>
                 <Button
                     variant="primary"
