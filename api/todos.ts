@@ -18,7 +18,17 @@ export const getTodos = async (): Promise<Todo[]> => {
   return res.data || [];
 };
 
-export const deleteTodos = async (id: number): Promise<Todo[]> => {
+export const deleteTodo = async (id: number): Promise<Todo[]> => {
   const res = await api.delete(`/api/todos/${id}/`);
   return res.data || [];
 };
+
+export const createTodo = async (formData: FormData): Promise<Todo[]> => {
+  const res = await api.post(`/api/todos/`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data || [];
+};
+

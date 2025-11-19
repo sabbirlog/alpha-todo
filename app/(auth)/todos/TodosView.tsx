@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteTodos, getTodos, Todo } from "@/api/todos";
+import { deleteTodo, getTodos, Todo } from "@/api/todos";
 import FilterBar from "@/components/ui/FilterBar";
 import { DateFilter } from "@/components/ui/FilterDropdown";
 import AddTaskModal from "@/components/ui/modals/AddTaskModal";
@@ -43,7 +43,7 @@ const TodosView = () => {
   };
 
   const deleteMutation = useMutation({
-  mutationFn: deleteTodos,
+  mutationFn: deleteTodo,
   onSuccess: () => {
     queryClient.invalidateQueries({ queryKey: ["todos"] });
   },

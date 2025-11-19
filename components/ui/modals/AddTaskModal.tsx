@@ -2,8 +2,10 @@
 
 import React, { useRef } from "react";
 
+import { createTodo } from "@/api/todos";
 import InputField from "@/components/forms/InputField";
 import useOutsideClick from "@/hooks/useOutsideClick";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { Trash2 } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -33,18 +35,40 @@ const modalContentVariants = {
 };
 
 const AddTaskModal: React.FC<AddTaskModalProps> = ({ isOpen, onClose }) => {
+    const queryClient = useQueryClient();
+
     const modalRef = useRef<HTMLDivElement | null>(null);
     useOutsideClick(modalRef, onClose);
 
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm<FormValues>();
 
+    const createMutation = useMutation({
+        mutationFn: createTodo,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["todos"] });
+            onClose();
+        },
+    });
+
+
     const onSubmit = (data: FormValues) => {
-        console.log(data);
+        const formData = new FormData();
+
+        formData.append("title", data.title);
+        formData.append("todo_date", data.date);
+        formData.append("priority", data.priority);
+        formData.append("description", data.description);
+
+        createMutation.mutate(formData);
+
+        reset();
     };
+
 
     return (
         <AnimatePresence>
