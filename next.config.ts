@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  skipProxyUrlNormalize: true,
   productionBrowserSourceMaps: false,
   reactStrictMode: false,
   devIndicators: false,
